@@ -1,0 +1,137 @@
+<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
+        <label data-bind="attr: {'for': getCode()}" class="label"><span data-bind="i18n: 'BUY_NOW_PAY_LATER'">
+        </span></label>
+    </div>
+    
+    <div class="payment-method-content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <div class="payment-method-billing-address">
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <div  style="padding: 15px;">
+            <h2 data-bind="i18n: 'FINANCE_OPTION'"></h2>
+           <!-- <span data-bind="text: getCurrentLocale()"></span>-->
+        <div data-bind="foreach: getzoodpayAvailableService()">
+
+            <label class="label">
+                <input type="radio"
+
+                       data-bind="attr: {'id': $data.service_code}, value: $data.service_code, checked: $parent.selectedServiceCheck, click: $parent.selectedServiceClick($data) "/><span data-bind="text:  $data.service_monthly_text"></span> <img data-bind="attr: { src: require.toUrl('OrientSwiss_ZoodPay/images/zoodpay_'+$data.service_code+'_'+$data.zoodpayLan+'.png') }"  alt="ZoodPay.com" title="ZoodPay.com"  style="height:35px;vertical-align: middle;"/>
+            <a class='kinda-link' data-bind="attr: { 'onclick': $data.service_terms_open  }" > <span data-bind="i18n: 'TERMS_CONDITIONS'">
+            </span></a></label>
+
+            <br>
+
+            <div class="modal fade" data-bind="attr: { 'id': $data.service_terms_pop }" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content"> 
+                        <div class="modal-header">
+
+                            <a class="close" data-bind="attr: { 'onclick': $data.service_terms_close  }">&times;</a>
+                            <h4 class="modal-title"><span data-bind="i18n: 'TERMS_CONDITIONS_OF'"></span> <span data-bind="text: $data.service_code"></span></h4>
+                        </div>
+                        <div class="modal-body">
+                            <p data-bind="html : $data.service_description ">  </p>
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+        </div >
+
+
+
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action primary checkout"
+                        type="submit"
+                        data-bind="
+                        click: placeOrder,
+                        attr: {title: $t('PLACE_ORDER_WITH_ZOODPAY')},
+                        css: {disabled: !isPlaceOrderActionAllowed()},
+                        enable: (getCode() == isChecked()) && zoodpayTermsChecked() && zoodpaySelectedService()
+                        "
+                        disabled>
+                    <span data-bind="i18n: 'PLACE_ORDER'"></span>
+<!--                    <span data-bind="text: selectedServiceCheck"></span>-->
+                </button>
+            </div>
+        </div>
+        <div class="col-mp mp-12" style="padding: 8px;">
+            <input type="checkbox" name="custom" value="custom" data-bind='checked: zoodpayTermsChecked '/>
+            <label data-bind="attr: {for: 'zoodpayment-term'}"><a data-bind="attr: { href: getzoodpayTCURL() }" target="_blank"  ><span data-bind="i18n: 'ZOODPAY_TERMS_CONDITIONS'"></span></a></span></label>
+        </div>
+    </div>
+
+
+</div>
+
+
+<style>
+    a.kinda-link:hover { cursor: pointer; }
+
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>

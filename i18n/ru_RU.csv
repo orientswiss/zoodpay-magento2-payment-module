@@ -1,0 +1,45 @@
+TERMS_CONDITIONS, (Правила и Положения),module,OrientSwiss_ZoodPay
+OF, о,module,OrientSwiss_ZoodPay
+PLACE_ORDER, разместить заказ,module,OrientSwiss_ZoodPay
+PLACE_ORDER_WITH_ZOODPAY, Разместите заказ вместе с ZoodPay,module,OrientSwiss_ZoodPay
+TERMS_CONDITIONS_OF, Правила и Положения,module,OrientSwiss_ZoodPay
+PROCESSING_ERROR, Произошла ошибка при обработке вашего запроса. Пожалуйста,module,OrientSwiss_ZoodPay
+PLACING_ORDER_ERROR, Ошибка произошла во время размешения заказа через шлюз ZoodPay,module,OrientSwiss_ZoodPay
+PAYMENT_ACCEPTED, Платежные реквизиты были приняты и обработаны для текущего заказа,module,OrientSwiss_ZoodPay
+PAYMENT_CANCELLED, платеж отменен для текущего заказа,module,OrientSwiss_ZoodPay
+PAYMENT_FAILED, Платеж не прошел для текущего заказа,module,OrientSwiss_ZoodPay
+PAYMENT_NOT_ACCEPTED, Платеж не принят,module,OrientSwiss_ZoodPay
+BUY_NOW_PAY_LATER, ZoodPay Купи сейчас - плати потом,module,OrientSwiss_ZoodPay
+ZOODPAY_TERMS_CONDITIONS, ZoodPay Правила и положения,module,OrientSwiss_ZoodPay
+FINANCE_OPTION, выберите свой вариант финансирования,module,OrientSwiss_ZoodPay
+ENABLE, Включить,module,OrientSwiss_ZoodPay
+MERCHANT_STATUS, Статус Продавца,module,OrientSwiss_ZoodPay
+Merchant Key, Ключ продавца,module,OrientSwiss_ZoodPay
+Merchant Secret, секретный ключ продавца,module,OrientSwiss_ZoodPay
+Merchant salt, Торговая соль,module,OrientSwiss_ZoodPay
+ZOODPAY_API_URL, ZoodPay API ссылка,module,OrientSwiss_ZoodPay
+ZOODPAY_API_VERSION, ZoodPay API версия,module,OrientSwiss_ZoodPay
+ZOODPAY_TC_URL, ZoodPay условия и положения ссылка,module,OrientSwiss_ZoodPay
+ZOODPAY_API_HEALTH, ZoodPay API Здоровье,module,OrientSwiss_ZoodPay
+HEALTH_CHECK, Проверка работоспособности,module,OrientSwiss_ZoodPay
+DISPLAY_ON_PRODUCT_PAGE, отображение информации на странице сведений о продукте,module,OrientSwiss_ZoodPay
+GATEWAY_UNDER_NAME, Доступен шлюз под названием,module,OrientSwiss_ZoodPay
+APPLICABLE_COUNTRIES, Оплата из соответствующих стран,module,OrientSwiss_ZoodPay
+SPECIFIC_COUNTRIES, Оплата из определенных стран,module,OrientSwiss_ZoodPay
+SORT_ORDER, Порядок сортировки,module,OrientSwiss_ZoodPay
+CHECKBOX_MSG, Отметка означает,module,OrientSwiss_ZoodPay
+HEALTHY_API, ZoodPay API здоровый,module,OrientSwiss_ZoodPay
+API_DOWN, ZoodPay API не работает,module,OrientSwiss_ZoodPay
+FETCH_CONFIGURATION, Получить конфигурации,module,OrientSwiss_ZoodPay
+Specific Countries, Выберите страны,module,OrientSwiss_ZoodPay
+Yes, Да,module,OrientSwiss_ZoodPay
+No, Нет,module,OrientSwiss_ZoodPay
+ERROR_PAGE, Страница ошибки,module,OrientSwiss_ZoodPay
+SUCCESS_PAGE, Страница успеха,module,OrientSwiss_ZoodPay
+INVALID_API_LINK, Деактивировать из-за: предоставленная ссылка API недействительна,module,OrientSwiss_ZoodPay
+CHECK_API_LINK_CREDENTIALS, «Деактивируйте,module,OrientSwiss_ZoodPay
+INVALID_API_CREDENTIALS, Деактивировать из-за: Проверьте предоставленные учётные данные,module,OrientSwiss_ZoodPay
+ACTIVE_OPERATE, Активная и доступная для работы,module,OrientSwiss_ZoodPay
+RELOAD_PAGE, Мы проверяем статус \n Страница будет перезагружена сейчас,module,OrientSwiss_ZoodPay
+MONTHLY, Ежемесячно,module,OrientSwiss_ZoodPay
+AVAILABLE_FINANCE_OPTIONS,Доступны варианты финансирования,module,OrientSwiss_ZoodPay

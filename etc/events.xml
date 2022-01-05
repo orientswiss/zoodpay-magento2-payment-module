@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+* @category    OrientSwiss
+* @package     OrientSwiss_ZoodPay
+* @copyright Copyright © 2020 OrientSwiss ZoodPay. All rights reserved.
+* @author    mohammadali.namazi@zoodpay.com
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="admin_system_config_changed_section_payment">
+        <observer name="custom_admin_system_config_changed_section_payment" instance="OrientSwiss\ZoodPay\Observer\ConfigObserver"/>
+    </event>
+    <event name="sales_order_place_after">
+        <observer name="place_order_after" instance="OrientSwiss\ZoodPay\Observer\orderPlaceAfter"/>
+    </event>
+
+    <event name="sales_order_place_before">
+        <observer name="place_order_before" instance="OrientSwiss\ZoodPay\Observer\orderPlaceBefore"/>
+
+    </event>
+
+    <event name="payment_method_is_active">
+        <observer name="zoodpayment" instance="OrientSwiss\ZoodPay\Observer\PaymentMethodAvailable" />
+    </event>
+
+
+    <event name="controller_action_predispatch_checkout_index_index">
+        <observer name="initiate_checkout_onepage" instance="OrientSwiss\ZoodPay\Observer\preDispatchCheckoutObserver" />
+    </event>
+
+    <event name="sales_order_save_after">
+        <observer name="sales_order_save_after" instance="OrientSwiss\ZoodPay\Observer\orderSaveAfter" />
+    </event>
+
+    <event name="sales_order_after_save">
+        <observer name="sales_order_after_save" instance="OrientSwiss\ZoodPay\Observer\orderAfterSave" />
+    </event>
+
+    <event name="sales_order_creditmemo_save_after">
+        <observer name="sales_order_creditmemo_save_after" instance="OrientSwiss\ZoodPay\Observer\creditMemoSaveAfter" />
+    </event>
+    <event name="sales_order_creditmemo_save_before">
+        <observer name="sales_order_creditmemo_save_before" instance="OrientSwiss\ZoodPay\Observer\creditMemoSaveBefore" />
+    </event>
+
+    <event name="sales_order_payment_refund">
+        <observer name="sales_order_payment_refund" instance="OrientSwiss\ZoodPay\Observer\salesOrderPaymentRefund" />
+    </event>
+
+
+
+</config>

@@ -1,0 +1,11 @@
+<?php
+/**
+ * @var $block \OrientSwiss\ZoodPay\Block\Adminhtml\OrderView\View
+ */
+
+if (isset($block->getContent()['service_monthly_text']))
+{
+?>
+<h4> <h2 ><?php echo __('FINANCE_OPTION')?></h2></h4>
+<p>   <?php echo __($block->getContent()['service_monthly_text']); ?></p>
+<?php }

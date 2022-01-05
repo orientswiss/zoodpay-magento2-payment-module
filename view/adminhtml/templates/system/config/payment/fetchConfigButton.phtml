@@ -1,0 +1,44 @@
+<?php
+/**
+
+ */
+?>
+<?php /* @var $block \OrientSwiss\ZoodPay\Block\System\Config\Payment\fetchConfigButton */ ?>
+
+<script>
+    require([
+        'jquery',
+        'zoodpayJsConfig',
+        'prototype',
+    ], function(jQuery){
+        function function_name() {
+            params = {
+            };
+
+            new Ajax.Request('<?php echo $block->getAjaxUrl() ?>', {
+                loaderArea:     false,
+                asynchronous:   true,
+                parameters:     params,
+                onSuccess: function(transport) {
+                    var response = JSON.parse(transport.responseText);
+                }
+            });
+        }
+
+        jQuery('#fetch_config_button').click(function () {
+
+            alert('We are Fetching the Configuration \n The page will be reloaded now');
+            function_name()
+            setTimeout(function(){// wait for 5 secs(2)
+                location.reload(); // then reload the page.(3)
+            }, 2000);
+
+        });
+
+
+    });
+</script>
+
+<?php echo $block->getButtonHtml() ?>
+
+

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <zoodpayment>
+                <payment_action>authorize</payment_action> <!-- You can use another method -->
+                <model>OrientSwiss\ZoodPay\Model\PaymentMethod</model>
+                <active>0</active>
+                <title>ZoodPay Buy Now Pay Later</title>
+                <order_status>new</order_status><!-- set default order status-->
+                <merchant_id backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <merchant_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <merchant_status>Deactivate, Check The Provided Credentials And API link</merchant_status>
+                <merchant_token>0</merchant_token>
+                <merchant_salt>0</merchant_salt>
+                <zoodpay_api_url>0</zoodpay_api_url>
+                <zoodpay_api_ver>0</zoodpay_api_ver>
+                <zoodpay_tc_url>0</zoodpay_tc_url>
+                <zoodpay_api_health>ZoodPay API is down</zoodpay_api_health>
+                <zoodpay_api_health_hidden>0</zoodpay_api_health_hidden>
+                <allowspecific>0</allowspecific>
+                <gateway_title>ZoodPay Buy Now Pay Later</gateway_title>
+                <min_order_total>0</min_order_total>
+                <currency>USD</currency>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+            </zoodpayment>
+        </payment>
+    </default>
+</config>
+

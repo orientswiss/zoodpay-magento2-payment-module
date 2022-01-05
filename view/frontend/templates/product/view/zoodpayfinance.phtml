@@ -1,0 +1,160 @@
+<style>
+
+    .box {
+        width: 40%;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.2);
+        padding: 35px;
+        border: 2px solid #fff;
+        border-radius: 20px/50px;
+        background-clip: padding-box;
+        text-align: center;
+    }
+
+    .button {
+        font-size: 1em;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
+    .button:hover {
+        background: #ffffff;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        opacity: 0;
+        z-index: 9999;
+    }
+    .overlay:target {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .popup {
+
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        width: 60%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+    .popup h2 {
+        margin-top: 0;
+        color: #333;
+        font-family: Tahoma, Arial, sans-serif;
+    }
+    .popup .close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        transition: all 200ms;
+        font-size: 30px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+    }
+    .popup .close:hover {
+        color: #06D85F;
+    }
+    .popup .content {
+        max-height: 60%;
+        overflow: auto;
+    }
+
+    @media screen and (max-width: 700px){
+        .box{
+            width: 70%;
+        }
+        .popup{
+            width: 70%;
+        }
+    }
+
+</style>
+
+<?php
+
+$zDataHelper =   $this->helper('OrientSwiss\ZoodPay\Helper\Data');
+$showProduct =  $zDataHelper->GetConfigData($zDataHelper::XML_Display_Info_ProductPage);
+if ($showProduct){
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();// Instance of Object Manager
+    $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');//get current product
+    $product_price= $product->getFinalPrice(); //Get the
+
+    $priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data'); // Instance of Pricing Helper
+
+    $formattedCurrencyValue = $priceHelper->currency($product_price, true, false); //Return thr Value with Currency Symbol
+
+    $fetchConfigResponse =   $zDataHelper->getZoodPayConfigurationArrayFormat();
+//    echo $fetchConfigResponse[0]['service_name'] .' '. $formattedCurrencyValue;
+
+//    array_walk_recursive($fetchConfigResponse, function ($item, $key) {
+//        echo "$key holds $item\n";
+//    });
+
+
+
+
+
+    ?>
+<div class='finance-zoodpay-box'>
+    <span class="finance-zoodpay">
+    
+    <h2 data-bind="i18n:'FINANCE_OPTION'"></h2>
+    
+
+        <?php
+
+        for($i = 0, $iMax = count($fetchConfigResponse); $i < $iMax; $i++) {
+
+            if (($product_price >= $fetchConfigResponse[$i]['min_limit']) && ($product_price <= $fetchConfigResponse[$i]['max_limit']))
+            {
+                $serviceName = $fetchConfigResponse[$i]['service_name'];
+                $serviceCode = $fetchConfigResponse[$i]['service_code'];
+                $serviceDescription = htmlspecialchars_decode($fetchConfigResponse[$i]['description']);
+                $monthlyPayment = 0;
+                if (isset($fetchConfigResponse[$i]['instalments']) ) {
+
+                    $monthlyPayment= $product_price/$fetchConfigResponse[$i]['instalments'];
+                    $monthlyPayment= $priceHelper->currency($monthlyPayment, true, false); //Return thr Value with Currency Symbol
+                    $instalment =(string) $fetchConfigResponse[$i]['instalments'];
+                    echo "<a class=\"button\" href=\"#popup$i\" style=\"padding: 5px;\"> $instalment Monthly $serviceName of $monthlyPayment Via($serviceCode) With <img style='max-width: 15%;' src=\"https://apidocs.zoodpay.com/images/logo.png\">  </a>";
+                    echo "<br>";
+                }
+              else{
+                  $monthlyPayment= $product_price/3;
+                  $monthlyPayment=  $priceHelper->currency($monthlyPayment, true, false); //Return thr Value with Currency Symbol
+                  echo "<a class=\"button\" href=\"#popup$i\" style=\"padding: 5px;\">$serviceName ($serviceCode) With <img style='max-width: 15%;' src=\"https://apidocs.zoodpay.com/images/logo.png\">  </a>";
+                  echo "<br>";
+              }
+
+
+
+                echo  "<div id=\"popup$i\" class=\"overlay\">";
+                echo  "<div class=\"popup\">";
+                echo "<h2>$serviceName ($serviceCode)</h2>";
+                echo "<a class=\"close\" href=\"#\">&times;</a>";
+                echo "<div class=\"content\">
+                  $serviceDescription </div>  </div> </div>";
+
+            }
+        }
+
+
+        ?>
+
+    </span>
+</div>
+<?php } ?>

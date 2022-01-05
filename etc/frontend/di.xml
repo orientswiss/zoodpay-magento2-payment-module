@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Payment\Model\CcGenericConfigProvider">
+        <arguments>
+            <argument name="methodCodes" xsi:type="array">
+                <item name="test_payment" xsi:type="const">OrientSwiss\ZoodPay\Model\PaymentMethod::CODE</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="zoodpayment_checkout_config_provider" xsi:type="object">
+                    OrientSwiss\ZoodPay\Model\CheckoutConfigProvider
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>
