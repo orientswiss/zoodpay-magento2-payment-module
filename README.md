@@ -1,5 +1,5 @@
 # ZoodPay Magento 2 Payment Module
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Software License](https://img.shields.io/badge/license-AFL-brightgreen.svg?style=flat-square)](LICENSE.md)
 
 ZoodPay Buy Now Pay Later payment Module for the Magento 2.
 
