@@ -13,7 +13,7 @@
                 </field>
 
 
-                <field id="merchant_status" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="merchant_status" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>MERCHANT_STATUS</label>
                     <frontend_model>OrientSwiss\ZoodPay\Block\System\Config\Form\Field\Disable</frontend_model>
                 </field>
@@ -32,9 +32,11 @@
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
 
-                <field id="zoodpay_api_url" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>ZOODPAY_API_URL</label>
+                <field id="zoodpay_api_url" translate="label comment" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>ZOODPAY_API_MODE</label>
+                    <source_model>OrientSwiss\ZoodPay\Model\Config\Source\ApiUrl</source_model>
                 </field>
+
                 <field id="zoodpay_api_ver" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>ZOODPAY_API_VERSION</label>
                 </field>

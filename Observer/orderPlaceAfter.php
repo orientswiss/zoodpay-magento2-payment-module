@@ -175,7 +175,15 @@ class orderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $incrementID = $this->_checkoutSession->getLastRealOrder()->getIncrementId();
         $orderModel = $this->_orderFactory->create();
-
+        $default_postcode=array(
+            "SA"=>"6330",
+            "KZ"=>"010017",
+            "UZ"=>"100012",
+            "IQ"=>"10011",
+            "JO"=>"11183",
+            "KW"=>"60000",
+            "LB"=>"10650"
+        );
         /** @var \Magento\Sales\Model\Order $order -- Get the Order From Observer */
 
         $order = $observer->getEvent()->getOrder();
@@ -233,12 +241,23 @@ class orderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
                     'customer_dob' => $customerObj->getDataByKey('dob'),
                     'customer_email' => $order->getCustomerEmail(),
                     'customer_phone' => $billingAddress->getTelephone(),
-                    'customer_pid' => 0,
                     'first_name' => $order->getCustomerFirstname(),
                     'last_name' => $order->getCustomerFirstname()
 
                 ];
+                if(trim($shippingAddress->getPostcode()) != ''){
+                    $shiping_postcode = $shippingAddress->getPostcode();
+                }
+                else {
+                    $shiping_postcode = $default_postcode[$shippingAddress->getCountryId()];
+                }
 
+                if(trim($billingAddress->getPostcode()) != ''){
+                    $billing_postcode = $billingAddress->getPostcode();
+                }
+                else {
+                    $billing_postcode = $default_postcode[$$billingAddress->getCountryId()];
+                }
 
                 /** @var  $billing_Data -- Details for creating transaction */
                 $billing_Data = [
@@ -250,7 +269,7 @@ class orderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
                     'name' => $billingAddress->getName(),
                     'phone_number' => $billingAddress->getTelephone(),
                     'state' => $billingAddress->getRegion(),
-                    'zipcode' => $billingAddress->getPostcode()
+                    'zipcode' => $billing_postcode
                 ];
 
                 /** @var  $Shipping_Data -- Details for creating transaction */
@@ -264,7 +283,7 @@ class orderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
                     'name' => $shippingAddress->getName(),
                     'phone_number' => $shippingAddress->getTelephone(),
                     'state' => $shippingAddress->getRegion(),
-                    'zipcode' => $shippingAddress->getPostcode()
+                    'zipcode' => $shiping_postcode
                 ];
 
                 $shippingService = [
@@ -278,7 +297,7 @@ class orderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 
                 $merchant_key = $this->_zDataHelper->GetConfigData(zDataHelper::XML_MERCHANT_ID);
                 $merchant_reference_no = $order->getIncrementId();
-               // $amount = number_format($quoteObj->getGrandTotal(), 2);
+                // $amount = number_format($quoteObj->getGrandTotal(), 2);
                 $amount = $quoteObj->getGrandTotal();
                 $market_code = $this->_zDataHelper->GetConfigData(zDataHelper::XML_Default_Country_Code);
                 $salt = $this->_zDataHelper->decrypt($this->_zDataHelper->GetConfigData(zDataHelper::XML_MERCHANT_Salt));
@@ -331,6 +350,16 @@ class orderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
                         ];
                 }
 
+                $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]/";
+
+                /** @var  $callBacksUrl -- Details for CallBackUrl */
+                $callBacksUrl  =[
+                    "error_url" => $base_url."zoodpay/payment/Decline",
+                    "success_url" => $base_url."zoodpay/payment/Success",
+                    "ipn_url" => $base_url."zoodpay/payment/IPN",
+                    "refund_url" => $base_url."zoodpay/payment/Refund",
+
+                ];
 
                 $data = [
                     "billing" => $billing_Data,
@@ -338,9 +367,9 @@ class orderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
                     "items" => $orderItemData,
                     "order" => $order_Data,
                     "shipping" => $Shipping_Data,
-                    "shipping_service" => $shippingService
+                    "shipping_service" => $shippingService,
+                    "callbacks" => $callBacksUrl
                 ];
-
 
                 /** @var TYPE_NAME $curlResponse
                  *      Sent Post with Payload to the Zoodpay API And receive back the response
@@ -354,8 +383,6 @@ class orderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 
                         $curlResponseJson = json_decode($curlResponse['response'], true);
                         $this->_customerSession->setCurlResponseJson($curlResponseJson);
-
-
                         $localString = implode("|", array($market_code, $currencyCode, $amount, $merchant_reference_no, $merchant_key, $curlResponseJson['transaction_id'], $salt));
                         $localSignature = hash('sha512', $localString);
 

@@ -17,7 +17,7 @@ MERCHANT_STATUS, Статус Продавца,module,OrientSwiss_ZoodPay
 Merchant Key, Ключ продавца,module,OrientSwiss_ZoodPay
 Merchant Secret, секретный ключ продавца,module,OrientSwiss_ZoodPay
 Merchant salt, Торговая соль,module,OrientSwiss_ZoodPay
-ZOODPAY_API_URL, ZoodPay API ссылка,module,OrientSwiss_ZoodPay
+ZOODPAY_API_Mode, ZoodPay API Mode,module,OrientSwiss_ZoodPay
 ZOODPAY_API_VERSION, ZoodPay API версия,module,OrientSwiss_ZoodPay
 ZOODPAY_TC_URL, ZoodPay условия и положения ссылка,module,OrientSwiss_ZoodPay
 ZOODPAY_API_HEALTH, ZoodPay API Здоровье,module,OrientSwiss_ZoodPay
@@ -40,6 +40,8 @@ INVALID_API_LINK, Деактивировать из-за: предоставле
 CHECK_API_LINK_CREDENTIALS, «Деактивируйте,module,OrientSwiss_ZoodPay
 INVALID_API_CREDENTIALS, Деактивировать из-за: Проверьте предоставленные учётные данные,module,OrientSwiss_ZoodPay
 ACTIVE_OPERATE, Активная и доступная для работы,module,OrientSwiss_ZoodPay
+AVAILABLE_SERVICE,Ниже приведены доступные услуги,module,OrientSwiss_ZoodPay
 RELOAD_PAGE, Мы проверяем статус \n Страница будет перезагружена сейчас,module,OrientSwiss_ZoodPay
 MONTHLY, Ежемесячно,module,OrientSwiss_ZoodPay
 AVAILABLE_FINANCE_OPTIONS,Доступны варианты финансирования,module,OrientSwiss_ZoodPay
+LIMIT,Лимит,module,OrientSwiss_ZoodPay

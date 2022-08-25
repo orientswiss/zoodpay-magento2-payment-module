@@ -17,7 +17,7 @@ MERCHANT_STATUS,Merchant Status,module,OrientSwiss_ZoodPay
 Merchant Key,Merchant Key,module,OrientSwiss_ZoodPay
 Merchant Secret,Merchant Secret,module,OrientSwiss_ZoodPay
 Merchant salt,Merchant salt,module,OrientSwiss_ZoodPay
-ZOODPAY_API_URL,ZoodPay API URL,module,OrientSwiss_ZoodPay
+ZOODPAY_API_MODE,ZoodPay API Mode,module,OrientSwiss_ZoodPay
 ZOODPAY_API_VERSION,ZoodPay API Version,module,OrientSwiss_ZoodPay
 ZOODPAY_TC_URL,ZoodPay TC URL,module,OrientSwiss_ZoodPay
 ZOODPAY_API_HEALTH,ZoodPay Api HEALTH,module,OrientSwiss_ZoodPay
@@ -40,6 +40,8 @@ INVALID_API_LINK,Deactivate Due To: Provided API Link is not Valid,module,Orient
 CHECK_API_LINK_CREDENTIALS,"Deactivate, Check The Provided Credentials And API link",module,OrientSwiss_ZoodPay
 INVALID_API_CREDENTIALS,Deactivate Due To: Check The Provided Credentials,module,OrientSwiss_ZoodPay
 ACTIVE_OPERATE,Active And Available to Operate,module,OrientSwiss_ZoodPay
+AVAILABLE_SERVICE,Below Are the Available Services,module,OrientSwiss_ZoodPay
 RELOAD_PAGE,We are Checking the Status \n The page will be reloaded now,module,OrientSwiss_ZoodPay
 MONTHLY,Monthly,module,OrientSwiss_ZoodPay
 AVAILABLE_FINANCE_OPTIONS,Finance options available,module,OrientSwiss_ZoodPay
+LIMIT,Limit,module,OrientSwiss_ZoodPay

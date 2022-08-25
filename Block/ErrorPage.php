@@ -43,14 +43,10 @@ class ErrorPage extends \Magento\Framework\View\Element\Template
     public function getTheContent()
     {
         $this->_coreSession->start();
-        $message = '';
-
         $message = $this->_coreSession->getPageMessage();
         if (is_null($message)) {
             $message = __("PROCESSING_ERROR");
         }
-
-
         // //  $this->_zLogger->info($message);
 
         return $message;

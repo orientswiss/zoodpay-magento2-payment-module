@@ -1,0 +1,47 @@
+TERMS_CONDITIONS,(Qoida va shartlar),(Ережелер мен шарттар),OrientSwiss_ZoodPay
+OF,-ning,бойынша,OrientSwiss_ZoodPay
+PLACE_ORDER,ZoodPay orqali buyurtma bering,ZoodPay арқылы тапсырыс беріңіз,OrientSwiss_ZoodPay
+PLACE_ORDER_WITH_ZOODPAY,ZoodPay orqali buyurtma bering,Ережелері мен шарттары ,OrientSwiss_ZoodPay
+TERMS_CONDITIONS_OF,Qoida va shartlar,Сұрауыңызды өңдеу кезінде қате орын алды. Жауапты тұлғаға хабарласыңыз,OrientSwiss_ZoodPay
+PROCESSING_ERROR,"So‘rovingizni ko‘rib chiqishda xato yuz berdi. Iltimos, Administratorga murojaat qiling",ZoodPay шлюзі арқылы тапсырыс беру кезінде қате орын алды,OrientSwiss_ZoodPay
+PLACING_ORDER_ERROR,ZoodPay Gateway orqali buyurtma berishda xato yuz berdi,Ағымдағы тапсырыс үшін төлем мәліметтері қабылданды,OrientSwiss_ZoodPay
+PAYMENT_ACCEPTED,Joriy buyurtma uchun toʻlov tafsilotlari qabul qilindi va yigʻildi,Ағымдағы тапсырыс үшін төлем тоқтатылды,OrientSwiss_ZoodPay
+PAYMENT_CANCELLED,Joriy buyurtma uchun toʻlov bekor qilindi,Ағымдағы тапсырыс үшін төлем орындалмады,OrientSwiss_ZoodPay
+PAYMENT_FAILED,Joriy buyurtma uchun toʻlov amalga oshmadi,Төлем қабылданбады және берілген мәліметтер ағымдағы тапсырыс үшін дұрыс емес,OrientSwiss_ZoodPay
+PAYMENT_NOT_ACCEPTED,Joriy buyurtma uchun toʻlov qabul qilinmadi va taqdim etilgan maʼlumotlar noto'g'ri,ZoodPay Қазір сатып алыңыз Кейінірек төлеңіз,OrientSwiss_ZoodPay
+BUY_NOW_PAY_LATER,"ZoodPay Hozir xarid qiling, keyinroq toʻlang",ZoodPay ережелері мен шарттары,OrientSwiss_ZoodPay
+ZOODPAY_TERMS_CONDITIONS,ZoodPay qoida va shartlari,Қаржыландыру әдісін таңдаңыз,OrientSwiss_ZoodPay
+FINANCE_OPTION,Moliyalashtirish variantini tanlang,Қосу,OrientSwiss_ZoodPay
+ENABLE,Yoqish,Сатушы статусы,OrientSwiss_ZoodPay
+MERCHANT_STATUS,Sotuvchi statusi,Сатушы кілті,OrientSwiss_ZoodPay
+Merchant Key,Sotuvchi kaliti,Сатушы құпия кілті,OrientSwiss_ZoodPay
+Merchant Secret,Tijorat siri,Сатушы Salt жеке кілті,OrientSwiss_ZoodPay
+Merchant salt,Sotuvchi Salt,ZoodPay API мекенжайы,OrientSwiss_ZoodPay
+ZOODPAY_API_Mode,ZoodPay API Mode,ZoodPay API,OrientSwiss_ZoodPay
+ZOODPAY_API_VERSION,ZoodPay API versiyasi,ZoodPay TC URL мекенжайы,OrientSwiss_ZoodPay
+ZOODPAY_TC_URL,ZoodPay TC URL,Zoodpay API денсаулығы,OrientSwiss_ZoodPay
+ZOODPAY_API_HEALTH,ZoodPay Api HEALTH,Денсаулықты тексеру,OrientSwiss_ZoodPay
+HEALTH_CHECK,Health Check,Өнім туралы мәліметтер бетінде ақпаратты көрсету,OrientSwiss_ZoodPay
+DISPLAY_ON_PRODUCT_PAGE,Mahsulot tafsilotlari sahifasida ma'lumotni ko'rsatish,Шлюз атауы,OrientSwiss_ZoodPay
+GATEWAY_UNDER_NAME,Gateway nomi ostida mavjud,Қолданыстағы елдерден төлем,OrientSwiss_ZoodPay
+APPLICABLE_COUNTRIES,Amaldagi mamlakatlardan to'lov,Белгілі бір елдерден төлем,OrientSwiss_ZoodPay
+SPECIFIC_COUNTRIES,Muayyan mamlakatlardan toʻlov,Сұрыптау тәртібі,OrientSwiss_ZoodPay
+SORT_ORDER,Saralash tartibi,Құсбелгі ZoodPay төлем шлюзі өнім бетінде көрсетілетінін білдіреді.,OrientSwiss_ZoodPay
+CHECKBOX_MSG,"Belgilangan boʻlsa, ZoodPay toʻlov shlyuzi mahsulot sahifasida koʻrsatiladi.",ZoodPay API қалпында,OrientSwiss_ZoodPay
+HEALTHY_API,ZoodPay API faol,ZoodPay API жұмыс істемейді,OrientSwiss_ZoodPay
+API_DOWN,ZoodPay API ishlamayapti,Конфигурацияларды алу,OrientSwiss_ZoodPay
+FETCH_CONFIGURATION,Konfiguratsiyalarni qabul qilish,Елдерді таңдаңыз,OrientSwiss_ZoodPay
+Specific Countries,Mamlakatlarni tanlang,Иа,OrientSwiss_ZoodPay
+Yes,Ha,Жоқ,OrientSwiss_ZoodPay
+No,Yo'q,Қате бет,OrientSwiss_ZoodPay
+ERROR_PAGE,Xato sahifasi,Сәтті бет,OrientSwiss_ZoodPay
+SUCCESS_PAGE,Muvaffaqiyat sahifasi,Өшіру себебі: берілген API сілтемесі жарамсыз,OrientSwiss_ZoodPay
+INVALID_API_LINK,Quyidagi sababga ko'ra o'chirish: yaroqsiz API havolasi,"Өшіру, берілген тіркелгі деректерін және API сілтемесін тексеріңіз",OrientSwiss_ZoodPay
+CHECK_API_LINK_CREDENTIALS,"O'chirish, taqdim etilgan hisob ma'lumotlari va API havolasini tekshirish",Өшіру себебі: берілген тіркелгі деректерін тексеріңіз,OrientSwiss_ZoodPay
+INVALID_API_CREDENTIALS,Quyidagi sababga ko'ra o'chirish: Taqdim etilgan hisob ma'lumotlarini tekshirish,Белсенді және жұмысқа қолжетімді,OrientSwiss_ZoodPay
+ACTIVE_OPERATE,Faol va ishlatish uchun mavjud,Біз күйді тексеріп жатырмыз \n Бет қазір қайта жүктеледі,OrientSwiss_ZoodPay
+AVAILABLE_SERVICE,Below Are the Available Services,module,OrientSwiss_ZoodPay
+RELOAD_PAGE,Biz holatni tekshirmoqdamiz \n sahifa hozir qayta yuklanadi,Ай сайын,OrientSwiss_ZoodPay
+MONTHLY,Oylik,Қаржы опциялары қолжетімді,OrientSwiss_ZoodPay
+AVAILABLE_FINANCE_OPTIONS,Mavjud moliyaviy imkoniyatlar,module,OrientSwiss_ZoodPay
+LIMIT,Шектеу,module,OrientSwiss_ZoodPay

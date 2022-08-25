@@ -77,6 +77,7 @@ class fetchConfigButton extends \Magento\Backend\App\Action
         //Checking whether the response of the API Call was successful and store the information
         if ($curlResponse['statusCode'] == 200) {
             $this->_zDataHelper->SetConfigData(zDataHelper::XML_Service_Configuration, $curlResponse['response']);
+            $this->_zDataHelper->setServiceInfo($curlResponse['response']);
             // //  $this->_zLogger->info('response : '. $curlResponse['response']);
         }
 

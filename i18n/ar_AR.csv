@@ -1,0 +1,47 @@
+TERMS_CONDITIONS,(Terms and Conditions),( الشروط والأحكام),module,OrientSwiss_ZoodPay
+OF,of,من,module,OrientSwiss_ZoodPay
+PLACE_ORDER,Place Order,وضع الطلب مع Zoodpay,module,OrientSwiss_ZoodPay
+PLACE_ORDER_WITH_ZOODPAY,Place Order With ZoodPay,وضع الطلب مع Zoodpay,module,OrientSwiss_ZoodPay
+TERMS_CONDITIONS_OF,Terms and Condition of,الشروط والأحكام الخاصة في,module,OrientSwiss_ZoodPay
+PROCESSING_ERROR,An Error occurred while processing your request. Kindly contact the Administrator,حصل خطأ أثناء معالجة طلبك. يرجى التواصل مع الخص المسؤول,module,OrientSwiss_ZoodPay
+PLACING_ORDER_ERROR,The Error Happened During placing the order Via ZoodPay Gateway,حصل الخطأ أثناء وضع الطلب من خلال بوابة Zoodpay,module,OrientSwiss_ZoodPay
+PAYMENT_ACCEPTED,The Payment Details Accepted and collected for the current Order,تم قبول تفاصيل الدفعة وتحصيلها,module,OrientSwiss_ZoodPay
+PAYMENT_CANCELLED,The Payment Cancelled for the current Order ,تم إلغاء الدفعة الخاصة بالطلب الحالي,module,OrientSwiss_ZoodPay
+PAYMENT_FAILED,The Payment Failed for the current Order ,اقد فشلت الدفعة الخاصة في الطلب الحالي,module,OrientSwiss_ZoodPay
+PAYMENT_NOT_ACCEPTED,The Payment Not Accepted and The provided details are not correct for the current Order ,لم يتم قبول الدفعة والتفاصيل المزودة غير صحيحة المتعلقتين في المنتج الحالي,module,OrientSwiss_ZoodPay
+BUY_NOW_PAY_LATER,ZoodPay Buy Now Pay Later,الشراء الآن والدفع لاحقاً من Zoodpay,module,OrientSwiss_ZoodPay
+ZOODPAY_TERMS_CONDITIONS,ZoodPay Terms and Conditions,شروط وأحكام Zoodpay,module,OrientSwiss_ZoodPay
+FINANCE_OPTION,Select Your Finance Option,قم باختيا  وسيلة التمويل الخاصة بك,module,OrientSwiss_ZoodPay
+ENABLE,Enable,تفعيل,module,OrientSwiss_ZoodPay
+MERCHANT_STATUS,Merchant Status,حالة التاجر,module,OrientSwiss_ZoodPay
+Merchant Key,Merchant Key,مفتاح التاجر,module,OrientSwiss_ZoodPay
+Merchant Secret,Merchant Secret,مفتاح التاجر السري,module,OrientSwiss_ZoodPay
+Merchant salt,Merchant salt,مفتاح Salt الخاص في التاجر,module,OrientSwiss_ZoodPay
+ZOODPAY_API_Mode,ZoodPay API Mode,API الخاص في Zoodpay,module,OrientSwiss_ZoodPay
+ZOODPAY_API_VERSION,ZoodPay API Version,إصدار Zoodpay API,module,OrientSwiss_ZoodPay
+ZOODPAY_TC_URL,ZoodPay TC URL,رابط Zoodpay TC,module,OrientSwiss_ZoodPay
+ZOODPAY_API_HEALTH,ZoodPay Api HEALTH,صحة Zoodpay API,module,OrientSwiss_ZoodPay
+HEALTH_CHECK,Health Check,تحقق من الصحة,module,OrientSwiss_ZoodPay
+DISPLAY_ON_PRODUCT_PAGE,Display Info on Product Detail Page,عرض المعلومات على صفحة تفاصيل المنتج,module,OrientSwiss_ZoodPay
+GATEWAY_UNDER_NAME,Gateway Available Under Name,بوابة متاحة تحت اسم,module,OrientSwiss_ZoodPay
+APPLICABLE_COUNTRIES,Payment from Applicable Countries,دفعة من دول قابلة للتطبيق,module,OrientSwiss_ZoodPay
+SPECIFIC_COUNTRIES,Payment from Specific Countries,دفعة من دول محددة,module,OrientSwiss_ZoodPay
+SORT_ORDER,Sort Order,ترتيب الطلب,module,OrientSwiss_ZoodPay
+CHECKBOX_MSG,Checked means that ZoodPay Payment Gateway Will be Shown on the Product Page.,تم التحقق تعني أن بوابة دفعات Zoodpay ستظهر على صفحة المنتج,module,OrientSwiss_ZoodPay
+HEALTHY_API,ZoodPay API is healthy,Zoodpay API في حالة ممتازة,module,OrientSwiss_ZoodPay
+API_DOWN,ZoodPay API is down,Zoodpay API معطل,module,OrientSwiss_ZoodPay
+FETCH_CONFIGURATION,Fetch Configurations,احضار الإعدادات,module,OrientSwiss_ZoodPay
+Specific Countries,Select Countries,اختيار البلدان,module,OrientSwiss_ZoodPay
+Yes,Yes,نعم,module,OrientSwiss_ZoodPay
+No,No,كلا,module,OrientSwiss_ZoodPay
+ERROR_PAGE,Error Page,صفحة الخطأ,module,OrientSwiss_ZoodPay
+SUCCESS_PAGE,Success Page,صفحة النجاح,module,OrientSwiss_ZoodPay
+INVALID_API_LINK,Deactivate Due To: Provided API Link is not Valid,إيقاف بسبب: رابط API غير صالح,module,OrientSwiss_ZoodPay
+CHECK_API_LINK_CREDENTIALS,"Deactivate, Check The Provided Credentials And API link",إيقاف، تحقق من بيانات الاعتماد المرفقة ورابط API,module,OrientSwiss_ZoodPay
+INVALID_API_CREDENTIALS,Deactivate Due To: Check The Provided Credentials,إيقاف بسبب: تحقق من بيانات الاعتماد المرفقة,module,OrientSwiss_ZoodPay
+ACTIVE_OPERATE,Active And Available to Operate,نشط ومتاح للعمل,module,OrientSwiss_ZoodPay
+AVAILABLE_SERVICE,أدناه هي الخدمات المتوفرة,module,OrientSwiss_ZoodPay
+RELOAD_PAGE,We are Checking the Status \n The page will be reloaded now,إننا نقوم بالتحقق من الحالة \n سيتم إعادة تحميل الصفحة الآن,module,OrientSwiss_ZoodPay
+MONTHLY,Monthly,شهري,module,OrientSwiss_ZoodPay
+AVAILABLE_FINANCE_OPTIONS,Finance options available,خيارات تمويل متاحة,module,OrientSwiss_ZoodPay
+LIMIT,حد,module,OrientSwiss_ZoodPay

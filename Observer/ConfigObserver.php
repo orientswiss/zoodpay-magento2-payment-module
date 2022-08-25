@@ -130,7 +130,8 @@ class ConfigObserver implements \Magento\Framework\Event\ObserverInterface
         if (($curlResponseHealthy['statusCode'] == 200) && ($curlResponseFetchConfig['statusCode'] == 200)) {
             //$this->_zDataHelper->SetConfigData(zDataHelper::XML_MERCHANT_ACTIVE, 1);
             //  $this->_zLogger->info('Merchant is Active to Operate');
-            $this->_zDataHelper->SetConfigData(zDataHelper::XML_MERCHANT_STATUS, __('ACTIVE_OPERATE'));
+//            $this->_zDataHelper->SetConfigData(zDataHelper::XML_MERCHANT_STATUS, __('ACTIVE_OPERATE'));
+            $this->_zDataHelper->setServiceInfo($curlResponseFetchConfig['response']);
 
         } else {
             $this->_zDataHelper->SetConfigData(zDataHelper::XML_MERCHANT_ACTIVE, 0);

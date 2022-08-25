@@ -94,8 +94,6 @@ class Decline extends Action implements CsrfAwareActionInterface, HttpPostAction
         $this->_coreSession->start();
         $pageMessage = '';
         $result = $this->resultJsonFactory->create();
-
-
         $data = $this->webrequest->getBodyParams();
         if (!empty($data)) {
 
@@ -138,7 +136,7 @@ class Decline extends Action implements CsrfAwareActionInterface, HttpPostAction
                         if ($localSignature == $data['signature']) {
                             switch ($data['status']) {
 
-
+                                case "Cancelled":
                                 case "Failed" :
                                 {
                                     $order->setStatus(Order::STATE_CANCELED);
@@ -155,11 +153,24 @@ class Decline extends Action implements CsrfAwareActionInterface, HttpPostAction
                                     // //  $this->_zLogger->notice($pageMessage);
                                     // $pageMessage = $data['errorMessage'];
                                     $pageMessage = __("PLACING_ORDER_ERROR");
-                                    $url = ($this->_url->getRedirectUrl($this->_url->getBaseUrl() . 'zoodpay/Checkout/errorPage/'));
 
                                     break;
                                 }
+                                case "Inactive" :{
 
+                                    $order->setStatus(Order::STATE_PENDING_PAYMENT);
+                                    $order->setState(Order::STATE_PENDING_PAYMENT);
+
+                                    try {
+                                        $this->_orderRepository->save($order);
+                                    } catch (\Exception $e) {
+                                        // //  $this->_zLogger->error($e);
+                                        $this->messageManager->addExceptionMessage($e, $e->getMessage());
+                                    }
+                                    $pageMessage = __("PLACING_ORDER_ERROR");
+                                    break;
+
+                                }
 
                             }
 

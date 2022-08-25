@@ -1,160 +1,939 @@
-<style>
-
-    .box {
-        width: 40%;
-        margin: 0 auto;
-        background: rgba(255,255,255,0.2);
-        padding: 35px;
-        border: 2px solid #fff;
-        border-radius: 20px/50px;
-        background-clip: padding-box;
-        text-align: center;
-    }
-
-    .button {
-        font-size: 1em;
-        text-decoration: none;
-        cursor: pointer;
-        transition: all 0.3s ease-out;
-    }
-    .button:hover {
-        background: #ffffff;
-    }
-
-    .overlay {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.7);
-        transition: opacity 500ms;
-        visibility: hidden;
-        opacity: 0;
-        z-index: 9999;
-    }
-    .overlay:target {
-        visibility: visible;
-        opacity: 1;
-    }
-
-    .popup {
-
-        margin: 70px auto;
-        padding: 20px;
-        background: #fff;
-        border-radius: 5px;
-        width: 60%;
-        position: relative;
-        transition: all 5s ease-in-out;
-    }
-
-    .popup h2 {
-        margin-top: 0;
-        color: #333;
-        font-family: Tahoma, Arial, sans-serif;
-    }
-    .popup .close {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        transition: all 200ms;
-        font-size: 30px;
-        font-weight: bold;
-        text-decoration: none;
-        color: #333;
-    }
-    .popup .close:hover {
-        color: #06D85F;
-    }
-    .popup .content {
-        max-height: 60%;
-        overflow: auto;
-    }
-
-    @media screen and (max-width: 700px){
-        .box{
-            width: 70%;
-        }
-        .popup{
-            width: 70%;
-        }
-    }
-
-</style>
-
 <?php
 
 $zDataHelper =   $this->helper('OrientSwiss\ZoodPay\Helper\Data');
 $showProduct =  $zDataHelper->GetConfigData($zDataHelper::XML_Display_Info_ProductPage);
-if ($showProduct){
-
+if ($showProduct) {
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();// Instance of Object Manager
-    $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');//get current product
-    $product_price= $product->getFinalPrice(); //Get the
-
     $priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data'); // Instance of Pricing Helper
-
-    $formattedCurrencyValue = $priceHelper->currency($product_price, true, false); //Return thr Value with Currency Symbol
-
+    $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+    $currencyCode = $storeManager->getStore()->getCurrentCurrency();
     $fetchConfigResponse =   $zDataHelper->getZoodPayConfigurationArrayFormat();
-//    echo $fetchConfigResponse[0]['service_name'] .' '. $formattedCurrencyValue;
-
-//    array_walk_recursive($fetchConfigResponse, function ($item, $key) {
-//        echo "$key holds $item\n";
-//    });
-
-
-
-
-
-    ?>
-<div class='finance-zoodpay-box'>
-    <span class="finance-zoodpay">
-    
-    <h2 data-bind="i18n:'FINANCE_OPTION'"></h2>
-    
-
-        <?php
-
-        for($i = 0, $iMax = count($fetchConfigResponse); $i < $iMax; $i++) {
-
-            if (($product_price >= $fetchConfigResponse[$i]['min_limit']) && ($product_price <= $fetchConfigResponse[$i]['max_limit']))
-            {
-                $serviceName = $fetchConfigResponse[$i]['service_name'];
-                $serviceCode = $fetchConfigResponse[$i]['service_code'];
-                $serviceDescription = htmlspecialchars_decode($fetchConfigResponse[$i]['description']);
-                $monthlyPayment = 0;
-                if (isset($fetchConfigResponse[$i]['instalments']) ) {
-
-                    $monthlyPayment= $product_price/$fetchConfigResponse[$i]['instalments'];
-                    $monthlyPayment= $priceHelper->currency($monthlyPayment, true, false); //Return thr Value with Currency Symbol
-                    $instalment =(string) $fetchConfigResponse[$i]['instalments'];
-                    echo "<a class=\"button\" href=\"#popup$i\" style=\"padding: 5px;\"> $instalment Monthly $serviceName of $monthlyPayment Via($serviceCode) With <img style='max-width: 15%;' src=\"https://apidocs.zoodpay.com/images/logo.png\">  </a>";
-                    echo "<br>";
-                }
-              else{
-                  $monthlyPayment= $product_price/3;
-                  $monthlyPayment=  $priceHelper->currency($monthlyPayment, true, false); //Return thr Value with Currency Symbol
-                  echo "<a class=\"button\" href=\"#popup$i\" style=\"padding: 5px;\">$serviceName ($serviceCode) With <img style='max-width: 15%;' src=\"https://apidocs.zoodpay.com/images/logo.png\">  </a>";
-                  echo "<br>";
-              }
-
-
-
-                echo  "<div id=\"popup$i\" class=\"overlay\">";
-                echo  "<div class=\"popup\">";
-                echo "<h2>$serviceName ($serviceCode)</h2>";
-                echo "<a class=\"close\" href=\"#\">&times;</a>";
-                echo "<div class=\"content\">
-                  $serviceDescription </div>  </div> </div>";
-
+    $zpiPrice=0;
+    if (isset($fetchConfigResponse)) {
+        for ($i = 0, $iMax = count($fetchConfigResponse); $i < $iMax; $i++) {
+            if ($fetchConfigResponse[$i]['service_code'] === "ZPI") {
+                $zpiPrice = $fetchConfigResponse[$i]['max_limit'];
             }
+        }
+    }
+    ?>
+
+    <a id="zTrigger" class="zTrigger" href="#">
+
+        <div class="banner">
+            <div class="left-section">
+                <img class="logo-left-section"    src="<?php echo $this->getViewFileUrl('OrientSwiss_ZoodPay::images/logo_2x.png'); ?>" >
+            </div>
+            <div class="middle-section">
+                <p class="text-middle-section">
+                    Buy now, pay later
+                </p>
+            </div>
+            <div class="right-section">
+                <img class="info-right-section" src="<?php echo $this->getViewFileUrl('OrientSwiss_ZoodPay::images/Info_2x.png'); ?>"  alt="">
+            </div>
+        </div>
+    </a>
+
+    <div class="pop">
+
+
+
+        <div class="zModal" >
+            <div class="zModal__inner">
+                <div>
+                    <div class="div1 header" style="text-align: center;">
+                        <img class="image-logo"src="<?php echo $this->getViewFileUrl('OrientSwiss_ZoodPay::images/logo_2x.png'); ?>" alt="ZOODPAY Logo"> </br>
+
+                        <p class="text-title">
+                            Buy now. Pay later.
+                        </p>
+                    </div>
+
+                    <div class="div2_image_numbers" style="
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                    ">
+                        <div class="div2-1_image_four" style="text-align: center;">
+                            <img class="image-pay-monthly" src="<?php echo $this->getViewFileUrl('OrientSwiss_ZoodPay::images/Group 4325_2x.png'); ?>" alt="Pay in 4 monthly installments">
+                        </div>
+
+                        <div class="div2-2_or_with_lines" style="vertical-align: middle;">
+                            <div class="div2-2-1_line">
+                            </div>
+
+                            <div class="div2-2-2 or with lines_or" style="vertical-align: middle;">
+                                <h4 class="text-or">
+                                    or
+                                </h4>
+                            </div>
+
+                            <div class="div2-2-3_line2">
+                            </div>
+                        </div>
+
+                        <div class="div2-3_image_fourteen" style="text-align: center;">
+                            <img class="image-pay-after-delivery"src="
+<?php echo $this->getViewFileUrl('OrientSwiss_ZoodPay::images/Group 4324_2x.png'); ?>" alt="Pay 14 days after delivery">
+                        </div>
+                    </div>
+
+                    <div class="div3_text_pay" style="
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                        ">
+                        <div class="div3-1_text_pay_monthly">
+                            <h3 class="text-pay-monthly">
+                                Pay in 4 monthly installments
+                            </h3>
+                        </div>
+
+                        <div class="div3-2_text_pay_after_delivery" style="text-align: center;">
+                            <h3 class="text-pay-after-delivery">
+                                Pay 14 days after delivery
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="div4_advantages" style="
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    ">
+                        <div class="size4a"style="
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                        ">
+                            <div class="div4a_background" style="
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: center;
+                                align-items: center;
+                                ">
+                                <div class="div4flex" style="
+                                    display: flex;
+                                    flex-direction: row;
+                                    justify-content: center;
+                                ">
+                                    <div class="div4-1_spending" style="text-align: center;">
+                                        <div class="div4-1-1_spending_image" style="text-align: center;">
+                                            <img class="image-spending-limit" src="<?php echo $this->getViewFileUrl('OrientSwiss_ZoodPay::images/Group 4318_2x.png'); ?>  " width="64.93" height="56.28" alt="Spending limit">
+                                        </div>
+
+                                        <div class="div4-1-2_spending_text" style="text-align: center;">
+                                            <p class="text-spending-limit">
+                                                Spending limit up to <?php echo  $priceHelper->currency($zpiPrice, true, false); //Return thr Value with Currency Symbol $zpiPrice;?>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="div4-2_zero" style="text-align: center;">
+                                        <div class="div4-2-1_zero_image" style="text-align: center;">
+                                            <img class="image-zero-interest" src="<?php echo $this->getViewFileUrl('OrientSwiss_ZoodPay::images/Group 4317_2x.png'); ?>" width="75" height="64.69" alt="0% interest and no hidden fees">
+                                        </div>
+
+                                        <div class="div4-2-2_zero_text" style="text-align: center;">
+                                            <p class="text-zero-interest">
+                                                0% interest and no hidden fees
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="div4-3_online" style="text-align: center;">
+                                        <div class="div4-3-1_online_image" style="text-align: center;">
+                                            <img class="image-online-application" src="<?php echo $this->getViewFileUrl('OrientSwiss_ZoodPay::images/Group 4316_2x.png'); ?>" width="65.4" height="57.89" alt="Online application with instant approval">
+                                        </div>
+
+                                        <div class="div4-3-2_online_text" style="text-align: center;">
+                                            <p class="text-online-application">
+                                                Online application with instant approval
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="div5 footer" style="text-align: center;">
+                        <p class="text-just-select-zoodpay">
+                            Just select ZoodPay at checkout
+                        </p>
+
+                        <p class="Get-real-time-solution">
+                            Get a real-time solution using one of the
+                        </p>
+
+                        <p class="Get-real-time-solution">
+                            documents at hand.
+                        </p>
+                    </div>
+                </div>
+                <label class="close_button" for="close">
+                    <img class="close_image" src="<?php echo $this->getViewFileUrl('OrientSwiss_ZoodPay::images/Icon_2x.png'); ?>"></label>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+?>
+
+
+
+<style>
+    .close_button {
+        margin-right: 15px;
+        margin-top: 20px;
+    }
+
+    .close_image {
+        width: 24px;
+        height: 24px;
+    }
+
+    .div1 header {
+        align-items: center;
+        position: relative;
+
+    }
+
+    .image-logo {
+        align-self: right;
+        position: relative;
+        margin-top: 74px;
+        width:324px;
+        height: 48px;
+    }
+
+    .text-title {
+        font-family: Roboto;
+        font-weight: 900;
+        font-size: 31px;
+        text-align: center;
+        color: #1C1C1E;
+        padding-top: 2.665;
+        padding-bottom: 2.665;
+        margin-top: 17.45px;
+        margin-bottom: 60px;
+    }
+
+    .div2_image_numbers {
+        display: block;
+    }
+
+    .image-pay-monthly {
+        position: relative;
+        align-items: center;
+        margin-right: 41px;
+        margin-top: 0;
+        vertical-align: middle;
+        width: 146px;
+        height: 146px;
+    }
+
+    .line {
+        width: 1px;
+        height: 40px;
+        border-right: 1px solid #AEAEB2;
+        position: relative;
+        align-items: center;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 2px;
+        margin-right: 0;
+    }
+
+    .div2-1_image_four {
+        display: inline-block;
+    }
+
+    .div2-2_or_with_lines {
+        display: inline-block;
+    }
+
+    .div2-2-1_line {
+        width: 1px;
+        height: 40px;
+        border-right: 1px solid #AEAEB2;
+        position: relative;
+        align-items: center;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 2px;
+        margin-right: 0;
+        margin-left: 5px;
+    }
+
+    .text-or {
+        font-family: Roboto;
+        font-weight: 700;
+        font-size: 17px;
+        text-align: center;
+        color: #48484A;
+        padding-top: 3.5;
+        padding-bottom: 3.5;
+        margin-top: 0;
+        margin-bottom: 0;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .div2-2-3_line2 {
+        width: 1px;
+        height: 40px;
+        border-left: 1px solid #AEAEB2;
+        position: relative;
+        align-items: center;
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: 5px;
+        margin-right: 0;
+        margin-left: 5px;
+    }
+
+    .image-pay-after-delivery {
+        position: relative;
+        align-items: center;
+        margin-left: 41px;
+        margin-top: 0;
+        vertical-align: middle;
+        width: 146px;
+        height: 146px;
+    }
+
+    .div2-3_image_fourteen {
+        display: inline-block;
+
+    }
+
+    .div2_image_numbers {
+        display: block;
+    }
+
+    .div3_text_pay {
+        margin-bottom: 26px;
+    }
+
+    .div3-1_text_pay_monthly {
+        display: inline-block;
+    }
+
+    .text-pay-monthly {
+        font-family: Roboto;
+        font-weight: 900;
+        font-size: 20px;
+        text-align: center;
+        width: 176px;
+        color: #1C1C1E;
+        display: inline-block;
+        margin-right: 37px;
+    }
+
+    .div3-2_text_pay_after_delivery {
+        display: inline-block;
+    }
+
+    .text-pay-after-delivery {
+        font-family: Roboto;
+        font-weight: 900;
+        font-size: 20px;
+        text-align: center;
+        width: 176px;
+        color: #1C1C1E;
+        display: inline-block;
+        margin-left: 37px;
+    }
+
+    .div4_advantages {
+        display: block;
+    }
+
+    .size4a {
+        display: inline-block;
+
+    }
+
+    .div4a_background {
+        display: inline-block;
+        background-color: #F6F6F6;
+        border-radius: 18px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .div4-1_spending {
+        display: inline-block;
+        margin-right: 90px;
+    }
+
+    .div4-1-1_spending_image {
+        display: block;
+        margin-bottom: 18px;
+        margin-top:30px;
+    }
+
+    .image-spending-limit {
+        position: relative;
+        align-items: center;
+        margin-right: 0;
+    }
+
+    .text-spending-limit {
+        font-family: Roboto;
+        font-weight: 400;
+        font-size: 17px;
+        text-align: center;
+        width: 176px;
+        color: #48484A;
+        padding-top: 3.5;
+        padding-bottom: 3.5;
+        display: inline-block;
+        margin-top: 10;
+    }
+
+    .div4-2_zero {
+        display: inline-block;
+        margin-right: 90px;
+    }
+
+    .div4-2-1_zero_image {
+        display: block;
+        margin-bottom: 10px;
+        margin-top:30px;
+    }
+
+    .image-zero-interest {
+        position: relative;
+        align-items: center;
+    }
+
+    .text-zero-interest {
+        font-family: Roboto;
+        font-weight: 400;
+        font-size: 17px;
+        text-align: center;
+        width: 176px;
+        color: #48484A;
+        padding-top: 3.5;
+        padding-bottom: 3.5;
+        display: inline-block;
+        margin-right: 0;
+    }
+
+    .div4-3_online {
+        display: inline-block;
+    }
+
+    .div4-3-1_online_image {
+        display: block;
+        margin-bottom: 17px;
+        margin-top:30px;
+    }
+
+    .image-online-application {
+        position: relative;
+        align-items: center;
+    }
+
+    .text-online-application {
+        font-family: Roboto;
+        font-weight: 400;
+        font-size: 17px;
+        text-align: center;
+        width: 186px;
+        color: #48484A;
+        display: inline-block;
+    }
+
+    .text-just-select-zoodpay {
+        font-family: Roboto;
+        font-weight: 900;
+        font-size: 20px;
+        text-align: center;
+        color: #1C1C1E;
+        padding-top: 2;
+        padding-bottom: 2;
+        margin-top: 47px;
+        margin-bottom: 7px;
+    }
+
+    .Get-real-time-solution {
+        font-family: Roboto;
+        font-weight: 500;
+        font-size: 17px;
+        text-align: center;
+        color: #AEAEB2;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .pop {
+        /*position: absolute;*/
+
+        margin: auto;
+        padding: 0px;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    @media (max-width: 1400px) {
+        .pop {
+            position: relative;
+
+        }
+    }
+    .zModal {
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition: opacity 500ms ease-in-out;
+
+    }
+    .zModal__inner {
+        transform: translate(-50%, -50%) scale(0.75);
+        top: 50%;
+        left: 50%;
+        width: 50%;
+        background: white;
+        padding: 30px;
+        position: absolute;
+        color: black;
+        border: 2px solid #f000;
+        border-radius: 18px;
+    }
+    @media (max-width: 1310px) {
+        .zModal__inner {
+            width: 80%;
+            border: 2px solid ;
+        }
+
+        .close_button {
+            margin-right: 45px;
+            margin-top: 25px;
+        }
+
+        .close_image {
+            width: 24px;
+            height: 24px;
         }
 
 
-        ?>
+        .image-logo {
+            align-self: right;
+            position: relative;
+            margin-top: 18.65px;
+            width:160px;
+            height: 24px;
+        }
 
-    </span>
-</div>
-<?php } ?>
+        .text-title {
+            font-family: Roboto;
+            font-weight: 900;
+            font-size: 20px;
+            text-align: center;
+            color: #1C1C1E;
+            padding-top: 0;
+            padding-bottom: 2.665;
+            margin-top: 10.73px;
+            margin-bottom: 16px;
+        }
+
+        .div2_image_numbers {
+            display: block;
+        }
+
+        .image-pay-monthly {
+            position: relative;
+            align-items: center;
+            margin-right: 20px;
+            margin-top: 0;
+            vertical-align: middle;
+            width: 112px;
+            height: 112px;
+        }
+
+        .line {
+            width: 1px;
+            height: 40px;
+            border-right: 1px solid #AEAEB2;
+            position: relative;
+            align-items: center;
+            display: inline-block;
+            vertical-align: middle;
+            margin-bottom: 2px;
+            margin-right: 0;
+        }
+
+        .div2-1_image_four {
+            display: inline-block;
+        }
+
+        .div2-2_or_with_lines {
+            display: inline-block;
+            align-items: center;
+        }
+
+        .div2-2-1_line {
+            width: 1px;
+            height: 40px;
+            border-right: 1px solid #AEAEB2;
+            position: relative;
+            align-items: center;
+            display: inline-block;
+            vertical-align: middle;
+            margin-bottom: 2px;
+            margin-left: 5px;
+        }
+
+        .text-or {
+            font-family: Roboto;
+            font-weight: 700;
+            font-size: 17px;
+            text-align: center;
+            color: #48484A;
+            padding-top: 3.5;
+            padding-bottom: 3.5;
+            margin-top: 0;
+            margin-bottom: 0;
+            display: inline-block;
+            vertical-align: middle;
+            align-items: center;
+            margin-left: 0px;
+        }
+
+        .div2-2-3_line2 {
+            width: 1px;
+            height: 40px;
+            border-left: 1px solid #AEAEB2;
+            position: relative;
+            align-items: center;
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: 5px;
+            margin-left: 5px;
+        }
+
+        .image-pay-after-delivery {
+            position: relative;
+            align-items: center;
+            margin-left: 20px;
+            margin-top: 0;
+            vertical-align: middle;
+            width: 112px;
+            height: 112px;
+        }
+
+        .div2-3_image_fourteen {
+            display: inline-block;
+        }
+
+        .div2_image_numbers {
+            display: block;
+        }
+
+        .div3_text_pay {
+            margin-bottom: 6px;
+        }
+
+        .div3-1_text_pay_monthly {
+            display: inline-block;
+        }
+
+        .text-pay-monthly {
+            font-family: Roboto;
+            font-weight: 900;
+            font-size: 17px;
+            text-align: center;
+            width: 176px;
+            color: #1C1C1E;
+            display: inline-block;
+            margin-right: 0px;
+        }
+
+        .div3-2_text_pay_after_delivery {
+            display: inline-block;
+        }
+
+        .text-pay-after-delivery {
+            font-family: Roboto;
+            font-weight: 900;
+            font-size: 17px;
+            text-align: center;
+            width: 176px;
+            color: #1C1C1E;
+            display: inline-block;
+            margin-left: 0px;
+        }
+
+        .div4_advantages {
+            display: block;
+        }
+
+        .size4a {
+            display: inline-block;
+
+        }
+
+        .div4a_background {
+            display: inline-block;
+            background-color: #F6F6F6;
+            border-radius: 18px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .div4-1_spending {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .div4-1-1_spending_image {
+            display: block;
+            margin-bottom: 18px;
+            margin-top:20px;
+        }
+
+        .image-spending-limit {
+            position: relative;
+            align-items: center;
+            margin-right: 0;
+        }
+
+        .text-spending-limit {
+            font-family: Roboto;
+            font-weight: 400;
+            font-size: 12px;
+            text-align: center;
+            width: 93px;
+            color: #48484A;
+            padding-top: 3.5;
+            padding-bottom: 3.5;
+            display: inline-block;
+            margin-top: 10;
+        }
+
+        .div4-2_zero {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .div4-2-1_zero_image {
+            display: block;
+            margin-bottom: 10px;
+            margin-top:20px;
+        }
+
+        .image-zero-interest {
+            position: relative;
+            align-items: center;
+        }
+
+        .text-zero-interest {
+            font-family: Roboto;
+            font-weight: 400;
+            font-size: 12px;
+            text-align: center;
+            width: 93px;
+            color: #48484A;
+            padding-top: 3.5;
+            padding-bottom: 3.5;
+            display: inline-block;
+            margin-right: 0;
+        }
+
+        .div4-3_online {
+            display: inline-block;
+        }
+
+        .div4-3-1_online_image {
+            display: block;
+            margin-bottom: 17px;
+            margin-top:10px;
+        }
+
+        .image-online-application {
+            position: relative;
+            align-items: center;
+        }
+
+        .text-online-application {
+            font-family: Roboto;
+            font-weight: 400;
+            font-size: 12px;
+            text-align: center;
+            width: 93px;
+            color: #48484A;
+            display: inline-block;
+        }
+
+        .text-just-select-zoodpay {
+            font-family: Roboto;
+            font-weight: 900;
+            font-size: 17px;
+            text-align: center;
+            color: #1C1C1E;
+            padding-top: 2;
+            padding-bottom: 2;
+            margin-top: 27px;
+            margin-bottom: 7px;
+        }
+
+        .Get-real-time-solution {
+            font-family: Roboto;
+            font-weight: 500;
+            font-size: 14px;
+            text-align: center;
+            color: #AEAEB2;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .pop {
+            /*position: absolute;*/
+            /*width: 100%;*/
+            /*margin: auto;*/
+            /*padding: 0px;*/
+            /*height: 100%;*/
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+    }
+    .pop label {
+        display: inline-block;
+        cursor: pointer;
+    }
+    .pop label.open {
+        color: turquoise;
+        transition: color 200ms ease-in-out;
+        text-decoration: underline;
+    }
+    .pop label.open:hover {
+        color: paleturquoise;
+    }
+    .pop input {
+        display: none;
+    }
+    /*.pop input:checked + .zModal {*/
+    /*    opacity: 1;*/
+    /*    visibility: visible;*/
+    /*}*/
+    /*.pop input:checked + .zModal .zModal__inner {*/
+    /*    transform: translate(-50%, -50%) scale(1);*/
+    /*    transition: all 200ms ease-in-out;*/
+    /*}*/
+    /* .pop input:checked + .zModal .zModal__inner p {
+        font-size: 1.25rem;
+        line-height: 125%;
+    }*/
+    /*.pop input:checked + .zModal label {*/
+    /*    position: absolute;*/
+    /*    top: 0;*/
+    /*    right: 0;*/
+    /*    height: 30px;*/
+    /*    width: 30px;*/
+    /*    background: rgba(102, 102, 102, 0.01);*/
+    /*    transition: all 200ms ease-in-out;*/
+    /*}*/
+    /*.pop input:checked + .zModal label:hover {*/
+    /*    background: rgba(51, 51, 51, 0.2);*/
+    /*}*/
+
+
+
+
+    .banner {
+        height: 56px;
+        max-width: 620px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #AEAEB2;
+        border-radius: 6px;
+    }
+
+    .left-section {
+        display: flex;
+        align-items: center;
+        width: 152.67px;
+    }
+    .logo-left-section {
+        height: 18.1px;
+        margin-left: 16px;
+    }
+
+    .middle-section {
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    .text-middle-section {
+        font-family: Roboto;
+        font-weight: 400;
+        font-size: 14px;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+
+    }
+
+    .right-section {
+        display: flex;
+        width: 60px;
+        align-items: center;
+    }
+
+    .info-right-section {
+        height: 20px;
+        margin-left: 16.67px;
+    }
+    .show-modal {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1.0);
+        transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+    }
+    .zTrigger{
+        color: black !important;
+    }
+</style>
+
+<script>
+
+    var zmodal = document.querySelector(".zModal");
+    var ztrigger = document.querySelector(".zTrigger");
+    var zcloseButton = document.querySelector(".close_button");
+
+    function ztoggleModal() {
+        zmodal.classList.toggle("show-modal");
+    }
+
+    function windowOnClick(event) {
+        if (event.target === zmodal) {
+            ztoggleModal();
+        }
+    }
+
+    ztrigger.addEventListener("click", ztoggleModal);
+    zcloseButton.addEventListener("click", ztoggleModal);
+    window.addEventListener("click", windowOnClick);
+</script>

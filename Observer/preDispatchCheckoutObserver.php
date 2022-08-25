@@ -17,11 +17,10 @@ class preDispatchCheckoutObserver implements \Magento\Framework\Event\ObserverIn
     private $_checkoutSession;
 
     public function __construct(
-        //\Magento\Checkout\Model\Session\Proxy $checkoutSession,
+
         LoggerInterface $zLogger
     )
     {
-        //  $this->_checkoutSession = $checkoutSession;
         $this->_zLogger = $zLogger;
     }
 
@@ -31,11 +30,8 @@ class preDispatchCheckoutObserver implements \Magento\Framework\Event\ObserverIn
     public function execute(Observer $observer)
     {
 
-
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-
         $checkoutSession = $objectManager->get('Magento\Checkout\Model\Session\Proxy');
-        //$lastRealOrder = $this->_checkoutSession->getLastRealOrder();
         $lastRealOrder = $checkoutSession->getLastRealOrder();
 
 
@@ -44,7 +40,7 @@ class preDispatchCheckoutObserver implements \Magento\Framework\Event\ObserverIn
             if ($lastRealOrder->getPayment()->getMethodInstance()->getCode() == PaymentMethod::CODE) {
                 //  $this->_zLogger->notice("User pressed back button from the ZoodPay Payment Gateway");
                 if ($lastRealOrder->getData('state') === 'pending_payment' && $lastRealOrder->getData('status') === 'pending_payment') {
-                    $this->_checkoutSession->restoreQuote();
+                    $checkoutSession->restoreQuote();
                 }
 
             }

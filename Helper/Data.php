@@ -1,26 +1,32 @@
 <?php
 
+
 /**
- * Data
- *
- * @copyright Copyright © 2020 OrientSwiss ZoodPay. All rights reserved.
- * @author    mohammadali.namazi@zoodpay.com
+ * Description:
+ * Author: mintali
+ * Email : mohammadali.namazi@zoodpay.com
+ * Date: 2022-06-15, Wed, 12:34
+ * File: Data
+ * Path: Helper/Data.php
+ * Line: 11
  */
 
 namespace OrientSwiss\ZoodPay\Helper;
 
+use Magento\Framework\App\Cache\Frontend\Pool;
+use Magento\Framework\App\Cache\TypeListInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Config\Storage\WriterInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
+
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\PageCache\Version;
-use Magento\Framework\App\Cache\TypeListInterface;
-use Magento\Framework\App\Cache\Frontend\Pool;
-
-use Magento\Framework\App\Config\Storage\WriterInterface;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
-use Magento\Store\Model\ScopeInterface;
-use OrientSwiss\ZoodPay\Logger\Zlogger as LoggerInterface;
 use Magento\Framework\Locale\Resolver;
+use Magento\Store\Model\ScopeInterface;
+use OrientSwiss\ZoodPay\Controller\Adminhtml\System\Config\fetchConfigButton;
+use OrientSwiss\ZoodPay\Logger\Zlogger as LoggerInterface;
+use Magento\Framework\Pricing\Helper\Data as PriceHelper;
 
 class Data extends AbstractHelper
 {
@@ -55,6 +61,7 @@ class Data extends AbstractHelper
     const API_Delivery = "/delivery";
     const API_HealthCheck = 'healthcheck';
     const XML_API_HEALTH_hidden = 'payment/zoodpayment/zoodpay_api_health_hidden';
+
     public $_ApiUrl;
     protected $_cacheTypeList;
     protected $_cacheFrontendPool;
@@ -79,7 +86,6 @@ class Data extends AbstractHelper
      * @param Resolver $localeResolver
      */
     public function __construct(
-
         Context              $context,
         TypeListInterface    $cacheTypeList,
         Pool                 $cacheFrontendPool,
@@ -87,11 +93,9 @@ class Data extends AbstractHelper
         WriterInterface      $configWriter,
         LoggerInterface      $zLogger,
         Resolver             $localeResolver,
-        EncryptorInterface   $encrypted
-
-
-    )
-    {
+        EncryptorInterface   $encrypted,
+        PriceHelper          $priceHelper
+    ) {
         parent::__construct($context);
         $this->_cacheTypeList = $cacheTypeList;
         $this->_cacheFrontendPool = $cacheFrontendPool;
@@ -100,6 +104,7 @@ class Data extends AbstractHelper
         $this->_zLogger = $zLogger;
         $this->_localeResolver = $localeResolver;
         $this->_encrypted = $encrypted;
+        $this->_priceHelper = $priceHelper;
     }
 
     /**
@@ -107,7 +112,7 @@ class Data extends AbstractHelper
      */
     public function flushCache(Version $subject)
     {
-        $types = array('config', 'layout', 'block_html', 'collections', 'reflection', 'db_ddl', 'eav', 'config_integration', 'config_integration_api', 'full_page', 'translate', 'config_webservice');
+        $types = ['config', 'layout', 'block_html', 'collections', 'reflection', 'db_ddl', 'eav', 'config_integration', 'config_integration_api', 'full_page', 'translate', 'config_webservice'];
         foreach ($types as $type) {
             $this->_cacheTypeList->cleanType($type);
         }
@@ -115,7 +120,6 @@ class Data extends AbstractHelper
             $cacheFrontend->getBackend()->clean();
         }
     }
-
 
     /**
      * Clear Config, config_webservice, Full_Page,
@@ -134,10 +138,8 @@ class Data extends AbstractHelper
         }
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->getBackend()->clean();
-
         }
     }
-
 
     /**
      * Clear Config, config_webservice, Full_Page,
@@ -155,10 +157,8 @@ class Data extends AbstractHelper
         }
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->getBackend()->clean();
-
         }
     }
-
 
     /**
      * @param $path = 'extension_name/general/data'
@@ -209,7 +209,6 @@ class Data extends AbstractHelper
         $fetchConfigResponse = $this->GetConfigData(self::XML_Service_Configuration);
         $fetchConfigResponse = json_decode($fetchConfigResponse, true);
         return $fetchConfigResponse['configuration'];
-
     }
 
     /**
@@ -221,8 +220,6 @@ class Data extends AbstractHelper
         $storeScope = ScopeInterface::SCOPE_STORE;
 
         return $this->_scopeConfig->getValue($Xml_Path, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeScope);
-
-
     }
 
     /**
@@ -237,13 +234,11 @@ class Data extends AbstractHelper
 
     public function encrypt($value)
     {
-
         return $this->_encrypted->encrypt($value);
     }
 
     public function decrypt($value)
     {
-
         return $this->_encrypted->decrypt($value);
     }
 
@@ -254,7 +249,6 @@ class Data extends AbstractHelper
      */
     public function curlPost($data, $api_end)
     {
-
         $merchantID = $this->GetConfigData(self::XML_MERCHANT_ID);
         $merchantKey = $this->GetConfigData(self::XML_MERCHANT_KEY);
         $data_string = json_encode($data);
@@ -267,7 +261,7 @@ class Data extends AbstractHelper
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($ch, CURLOPT_USERPWD, "$merchantID:$merchantKey");
         $curl_response = curl_exec($ch);
@@ -276,7 +270,6 @@ class Data extends AbstractHelper
 
         return ["statusCode" => $status_code,
             "response" => $curl_response];
-
     }
 
     public function curlGet($api_end, $Auth_Req)
@@ -288,7 +281,7 @@ class Data extends AbstractHelper
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         if ($Auth_Req) {
             $merchantID = $this->GetConfigData(self::XML_MERCHANT_ID);
             $merchantKey = $this->GetConfigData(self::XML_MERCHANT_KEY);
@@ -296,15 +289,12 @@ class Data extends AbstractHelper
             curl_setopt($ch, CURLOPT_USERPWD, "$merchantID:$merchantKey");
         }
 
-
         $curl_response = curl_exec($ch);
         $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         return ["statusCode" => $status_code,
             "response" => $curl_response];
-
     }
-
 
     /**
      * @param $data -- array of data or data that need to be sent
@@ -313,16 +303,13 @@ class Data extends AbstractHelper
      */
     public function curlPUT($data, $api_end)
     {
-
         $merchantID = $this->GetConfigData(self::XML_MERCHANT_ID);
         $merchantKey = $this->GetConfigData(self::XML_MERCHANT_KEY);
         $data_string = json_encode($data);
 
         $apiUrl = $this->GetConfigData(self::XML_API_URL) . $this->GetConfigData(self::XML_API_Ver) . $api_end;
 
-
-        $del_headers = ['Accept: application/json', 'Content-Length: ' . strlen($data_string), 'Authorization: Basic ' . base64_encode($merchantID . ':' . $merchantKey), 'Content-Type: application/json',];
-
+        $del_headers = ['Accept: application/json', 'Content-Length: ' . strlen($data_string), 'Authorization: Basic ' . base64_encode($merchantID . ':' . $merchantKey), 'Content-Type: application/json'];
 
         $D_ch = curl_init();
         curl_setopt($D_ch, CURLOPT_POST, 1);
@@ -340,8 +327,20 @@ class Data extends AbstractHelper
 
         return ["statusCode" => $status_code,
             "response" => $curl_response];
+    }
+    public function setServiceInfo($response)
+    {
+        $fetchConfigResponse = json_decode($response, true, 512);
+        $i=0;
+        $availableServiceResult = __('ACTIVE_OPERATE') . "\r\n";
+        $availableServiceResult .=  "================================ \r\n";
+        $availableServiceResult .= __('AVAILABLE_SERVICE') . ": \r\n";
+        $availableServiceResult .= "\r\n";
+        foreach ($fetchConfigResponse['configuration'] as $iValue) {
+            $availableServiceResult .= $i. ". " .$iValue['service_code'] . " ".__('LIMIT')." -> " .$this->_priceHelper->currency($iValue['min_limit'], true, false)  . " -- " .   $this->_priceHelper->currency($iValue['max_limit'], true, false) . "\r\n";
+            $i++;
+        }
+        $this->SetConfigData(self::XML_MERCHANT_STATUS, $availableServiceResult);
 
     }
-
-
 }
